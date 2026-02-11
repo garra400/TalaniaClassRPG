@@ -1,0 +1,19 @@
+{
+  "Group": "Talania",
+  "Name": "TalaniaClassRPG",
+  "Version": "0.1.0",
+  "Description": "Class system with active/passive skills and per-class leveling.",
+  "Authors": [
+    {
+      "Name": "Garra400"
+    }
+  ],
+  "Website": "",
+  "ServerVersion": "*",
+  "Dependencies": {
+    "Hytale:EntityModule": "*"
+  },
+  "DisabledByDefault": false,
+  "Main": "com.talania.classrpg.TalaniaClassRpgPlugin",
+  "IncludesAssetPack": false
+}

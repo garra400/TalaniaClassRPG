@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"com.talania.classrpg"},{"l":"com.talania.classrpg.combat"},{"l":"com.talania.classrpg.config"},{"l":"com.talania.classrpg.effects"},{"l":"com.talania.classrpg.skills"},{"l":"com.talania.classrpg.state"}];updateSearchResults();

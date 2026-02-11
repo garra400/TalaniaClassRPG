@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group = maven_group
+version = '0.1.0'
+
+ext {
+    hytaleHome = "${System.getProperty('user.home')}/AppData/Roaming/Hytale"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(java_version)
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.talania:TalaniaCore:0.1.0'
+    compileOnly files("$hytaleHome/install/$patchline/package/game/latest/Server/HytaleServer.jar")
+}
+
+// Quiet warnings about missing Javadocs.
+javadoc {
+    options.addStringOption('Xdoclint:-missing', '-quiet')
+}
+
+// Default jar task configuration
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
