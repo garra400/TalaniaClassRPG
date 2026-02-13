@@ -1,0 +1,136 @@
+﻿{
+  "maxLevel": 100,
+  "baseXp": 100,
+  "stepXp": 25,
+  "combatXp": {
+    "hitXp": 2,
+    "damageToXp": 0.25,
+    "maxHitXp": 25,
+    "killXpNpc": 40,
+    "killXpPlayer": 80,
+    "awardOnNpc": true,
+    "awardOnPlayer": true
+  },
+  "skills": {
+    "bladeBarrier": {
+      "attackSpeedMultiplier": 1.3,
+      "armorAdd": 1.0,
+      "durationMs": 3000
+    },
+    "valdorsVerdict": {
+      "damage": 18.0,
+      "radius": 6.0,
+      "coneDegrees": 60.0,
+      "knockback": 2.5
+    },
+    "evasiveShot": {
+      "backwardForce": 3.5,
+      "upwardForce": 0.8,
+      "arrowCount": 3,
+      "spreadDegrees": 10.0,
+      "projectileId": "Arrow_FullCharge"
+    },
+    "rainOfVengeance": {
+      "targetRange": 18.0,
+      "fallbackForward": 12.0,
+      "radius": 4.0,
+      "arrows": 12,
+      "delayMs": 1000,
+      "slowMultiplier": 0.6,
+      "slowDurationMs": 3000,
+      "slowEffectId": "",
+      "slowEffectDurationMs": 0
+    },
+    "shadowStep": {
+      "blinkDistance": 8.0,
+      "armorAdd": 1.0,
+      "armorDurationMs": 600,
+      "invulnerableMs": 600
+    },
+    "phantomEdge": {
+      "durationMs": 5000,
+      "speedMultiplier": 1.3,
+      "executeThreshold": 0.3,
+      "executeMultiplier": 2.5,
+      "invisibilityEffectId": "",
+      "invisibilityDurationMs": 0
+    },
+    "primalRoar": {
+      "radius": 4.0,
+      "stunDurationMs": 1000,
+      "attackSpeedMultiplier": 1.25,
+      "buffDurationMs": 5000,
+      "stunEffectId": "",
+      "stunEffectDurationMs": 0
+    },
+    "undyingRage": {
+      "durationMs": 6000,
+      "armorAdd": 1.0,
+      "attackSpeedMultiplier": 1.3,
+      "moveSpeedMultiplier": 1.25,
+      "healRatio": 0.25,
+      "invulnerable": true
+    },
+    "radiance": {
+      "durationMs": 4000,
+      "radius": 4.0,
+      "healRatio": 0.05,
+      "slowMultiplier": 0.7,
+      "slowDurationMs": 3000,
+      "slowEffectId": "",
+      "slowEffectDurationMs": 0
+    },
+    "dawnbreaker": {
+      "targetRange": 20.0,
+      "radius": 5.0,
+      "damage": 25.0,
+      "shieldArmorAdd": 0.25,
+      "shieldDurationMs": 4000,
+      "blindEffectId": "",
+      "blindDurationMs": 2500
+    },
+    "voidRift": {
+      "targetRange": 16.0,
+      "radius": 4.0,
+      "strength": 0.8,
+      "durationMs": 1800,
+      "tickMs": 100
+    },
+    "arcaneTorrent": {
+      "targetRange": 18.0,
+      "fallbackForward": 12.0,
+      "projectileId": "Arrow_FullCharge",
+      "durationMs": 3000,
+      "tickMs": 200,
+      "armorAdd": 1.0,
+      "armorDurationMs": 3000,
+      "invulnerable": true
+    },
+    "flashbang": {
+      "targetRange": 12.0,
+      "radius": 3.5,
+      "stunDurationMs": 1200,
+      "armorMultiplier": 0.7,
+      "armorDurationMs": 4000,
+      "blindEffectId": "",
+      "blindDurationMs": 2000
+    },
+    "leadStorm": {
+      "radius": 4.0,
+      "damage": 4.0,
+      "durationMs": 3000,
+      "tickMs": 250
+    },
+    "whirlwind": {
+      "radius": 3.5,
+      "knockback": 2.8,
+      "dodgeBonus": 0.35,
+      "durationMs": 3000
+    },
+    "thunderfall": {
+      "targetRange": 18.0,
+      "radius": 4.0,
+      "damage": 20.0
+    }
+  }
+}
