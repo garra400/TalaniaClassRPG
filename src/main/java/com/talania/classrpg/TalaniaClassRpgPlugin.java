@@ -11,6 +11,12 @@ import javax.annotation.Nonnull;
 public final class TalaniaClassRpgPlugin extends JavaPlugin {
     private ClassRpgRuntime runtime;
 
+    @Override
+    protected void start() {
+        // Registra comandos de classe
+        getCommandRegistry().register(new com.talania.classrpg.commands.ClassCommands());
+    }
+
     public TalaniaClassRpgPlugin(@Nonnull JavaPluginInit init) {
         super(init);
     }

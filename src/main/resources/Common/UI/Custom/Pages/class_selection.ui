@@ -1,0 +1,32 @@
+@PageOverlay
+@DecoratedContainer
+{
+  Size: (Width: 950, Height: 650);
+  Group #Header {
+    @Title { Text: "${ui.class_selection.title}"; }
+  }
+  Group #ClassListPanel {
+    LayoutMode: Top;
+    Scrollbar: @DefaultScrollbarStyle;
+    // Class buttons will be injected here
+  }
+  Group #ClassDetailPanel {
+    LayoutMode: Top;
+    Label #SelectedClassName { FontSize: 20; TextColor: #d4af37; }
+    Label #SelectedClassTagline { FontSize: 13; TextColor: #999999; }
+    Label #StrengthsHeader { FontSize: 14; TextColor: #66ff66; }
+    Label #PositiveLine1 {}
+    Label #PositiveLine2 {}
+    Label #PositiveLine3 {}
+    Label #WeaknessesHeader { FontSize: 14; TextColor: #ff6666; }
+    Label #NegativeLine1 {}
+    Label #NegativeLine2 {}
+  }
+  Group #Footer {
+    @BackButton #BackToRace { Text: "${ui.class_selection.back}"; }
+    @TextButton #ConfirmSelection { Text: "${ui.class_selection.confirm}"; }
+    @PageButton #PrevPageButton { Text: "${ui.class_selection.previous}"; }
+    @PageButton #NextPageButton { Text: "${ui.class_selection.next}"; }
+    Label #PageInfo {}
+  }
+}
