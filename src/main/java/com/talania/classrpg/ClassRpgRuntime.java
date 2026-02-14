@@ -1,5 +1,6 @@
 package com.talania.classrpg;
 
+import com.talania.classrpg.config.ClassDefinitionsConfig;
 import com.talania.classrpg.config.ClassRpgConfig;
 import com.talania.classrpg.combat.CombatXpService;
 import com.talania.classrpg.skills.ActiveSkillExecutor;
@@ -29,6 +30,7 @@ public final class ClassRpgRuntime {
     private final ClassRpgState state;
     private final CombatXpService combatXpService;
     private final ClassRpgConfig config;
+    private final ClassDefinitionsConfig classDefinitions;
 
     public ClassRpgRuntime(Path dataDirectory) {
         TalaniaCoreRuntime coreRuntime = TalaniaCoreRuntime.get();
@@ -40,6 +42,10 @@ public final class ClassRpgRuntime {
         ClassRpgConfig loadedConfig = ConfigManager.load("class_rpg_config.json", ClassRpgConfig.class, ClassRpgConfig.class);
         this.config = loadedConfig == null ? new ClassRpgConfig() : loadedConfig;
         this.config.ensureDefaults();
+        ClassDefinitionsConfig loadedDefinitions = ConfigManager.load("class_definitions.json",
+                ClassDefinitionsConfig.class, ClassDefinitionsConfig.class);
+        this.classDefinitions = loadedDefinitions == null ? new ClassDefinitionsConfig() : loadedDefinitions;
+        this.classDefinitions.ensureDefaults();
         int maxLevel = config.maxLevel;
         long baseXp = config.baseXp;
         long stepXp = config.stepXp;
@@ -87,5 +93,9 @@ public final class ClassRpgRuntime {
 
     public ClassRpgConfig config() {
         return config;
+    }
+
+    public ClassDefinitionsConfig classDefinitions() {
+        return classDefinitions;
     }
 }

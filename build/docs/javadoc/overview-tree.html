@@ -53,20 +53,37 @@ loadScripts(document, 'script');</script>
 <ul class="horizontal contents-list">
 <li><a href="com/talania/classrpg/package-tree.html">com.talania.classrpg</a>, </li>
 <li><a href="com/talania/classrpg/combat/package-tree.html">com.talania.classrpg.combat</a>, </li>
+<li><a href="com/talania/classrpg/commands/package-tree.html">com.talania.classrpg.commands</a>, </li>
 <li><a href="com/talania/classrpg/config/package-tree.html">com.talania.classrpg.config</a>, </li>
 <li><a href="com/talania/classrpg/effects/package-tree.html">com.talania.classrpg.effects</a>, </li>
 <li><a href="com/talania/classrpg/skills/package-tree.html">com.talania.classrpg.skills</a>, </li>
-<li><a href="com/talania/classrpg/state/package-tree.html">com.talania.classrpg.state</a></li>
+<li><a href="com/talania/classrpg/state/package-tree.html">com.talania.classrpg.state</a>, </li>
+<li><a href="com/talania/classrpg/ui/package-tree.html">com.talania.classrpg.ui</a></li>
 </ul>
 <section class="hierarchy">
 <h2 title="Class Hierarchy">Class Hierarchy</h2>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
+<li class="circle">com.hypixel.hytale.server.core.command.system.AbstractCommand
+<ul>
+<li class="circle">com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand
+<ul>
+<li class="circle">com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection
+<ul>
+<li class="circle">com.talania.classrpg.commands.<a href="com/talania/classrpg/commands/ClassCommands.html" class="type-name-link" title="class in com.talania.classrpg.commands">ClassCommands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">com.talania.classrpg.<a href="com/talania/classrpg/ActiveSkillEvent.html" class="type-name-link" title="class in com.talania.classrpg">ActiveSkillEvent</a></li>
 <li class="circle">com.talania.classrpg.skills.<a href="com/talania/classrpg/skills/ActiveSkillExecutor.html" class="type-name-link" title="class in com.talania.classrpg.skills">ActiveSkillExecutor</a></li>
 <li class="circle">com.talania.classrpg.<a href="com/talania/classrpg/ActiveSkillService.html" class="type-name-link" title="class in com.talania.classrpg">ActiveSkillService</a></li>
 <li class="circle">com.talania.classrpg.effects.<a href="com/talania/classrpg/effects/ArcaneTorrentEffect.html" class="type-name-link" title="class in com.talania.classrpg.effects">ArcaneTorrentEffect</a> (implements com.talania.core.entities.EntityAnimationEffect)</li>
+<li class="circle">com.talania.classrpg.config.<a href="com/talania/classrpg/config/ClassDefinitionsConfig.html" class="type-name-link" title="class in com.talania.classrpg.config">ClassDefinitionsConfig</a></li>
+<li class="circle">com.talania.classrpg.config.<a href="com/talania/classrpg/config/ClassDefinitionsConfig.ClassDefinition.html" class="type-name-link" title="class in com.talania.classrpg.config">ClassDefinitionsConfig.ClassDefinition</a></li>
 <li class="circle">com.talania.classrpg.<a href="com/talania/classrpg/ClassProgressionService.html" class="type-name-link" title="class in com.talania.classrpg">ClassProgressionService</a></li>
 <li class="circle">com.talania.classrpg.config.<a href="com/talania/classrpg/config/ClassRpgConfig.html" class="type-name-link" title="class in com.talania.classrpg.config">ClassRpgConfig</a></li>
 <li class="circle">com.talania.classrpg.config.<a href="com/talania/classrpg/config/ClassRpgConfig.ArcaneTorrent.html" class="type-name-link" title="class in com.talania.classrpg.config">ClassRpgConfig.ArcaneTorrent</a></li>
@@ -91,8 +108,18 @@ loadScripts(document, 'script');</script>
 <li class="circle">com.talania.classrpg.state.<a href="com/talania/classrpg/state/ClassRpgState.html" class="type-name-link" title="class in com.talania.classrpg.state">ClassRpgState</a></li>
 <li class="circle">com.talania.classrpg.state.<a href="com/talania/classrpg/state/ClassRpgState.HitStreak.html" class="type-name-link" title="class in com.talania.classrpg.state">ClassRpgState.HitStreak</a></li>
 <li class="circle">com.talania.classrpg.state.<a href="com/talania/classrpg/state/ClassRpgState.RageState.html" class="type-name-link" title="class in com.talania.classrpg.state">ClassRpgState.RageState</a></li>
+<li class="circle">com.talania.classrpg.ui.<a href="com/talania/classrpg/ui/ClassSelectionPage.ClassEventData.html" class="type-name-link" title="class in com.talania.classrpg.ui">ClassSelectionPage.ClassEventData</a></li>
 <li class="circle">com.talania.classrpg.<a href="com/talania/classrpg/ClassService.html" class="type-name-link" title="class in com.talania.classrpg">ClassService</a></li>
 <li class="circle">com.talania.classrpg.combat.<a href="com/talania/classrpg/combat/CombatXpService.html" class="type-name-link" title="class in com.talania.classrpg.combat">CombatXpService</a></li>
+<li class="circle">com.hypixel.hytale.server.core.entity.entities.player.pages.CustomUIPage
+<ul>
+<li class="circle">com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage&lt;T&gt;
+<ul>
+<li class="circle">com.talania.classrpg.ui.<a href="com/talania/classrpg/ui/ClassSelectionPage.html" class="type-name-link" title="class in com.talania.classrpg.ui">ClassSelectionPage</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">com.hypixel.hytale.component.system.EventSystem&lt;EventType&gt;
 <ul>
 <li class="circle">com.hypixel.hytale.component.system.EntityEventSystem&lt;ECS_TYPE, EventType&gt; (implements com.hypixel.hytale.component.system.QuerySystem&lt;ECS_TYPE&gt;)

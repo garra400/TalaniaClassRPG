@@ -11,9 +11,10 @@
   "Website": "",
   "ServerVersion": "*",
   "Dependencies": {
-    "Hytale:EntityModule": "*"
+    "Hytale:EntityModule": "*",
+    "Talania:TalaniaCore": "*"
   },
   "DisabledByDefault": false,
   "Main": "com.talania.classrpg.TalaniaClassRpgPlugin",
-  "IncludesAssetPack": false
+  "IncludesAssetPack": true
 }

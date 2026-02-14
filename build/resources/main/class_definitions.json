@@ -1,0 +1,130 @@
+{
+  "classes": [
+    {
+      "id": "swordmaster",
+      "name": "Swordmaster",
+      "tagline": "Balanced and controlled",
+      "strengths": [
+        "Blade Barrier (E): +30% attack speed and frontal guard",
+        "Valdor's Verdict (R): wide knockback wave",
+        "Duelist: stronger in 1v1 combat"
+      ],
+      "weaknesses": [
+        "Requires precise timing to block",
+        "Lower burst against heavy armor"
+      ]
+    },
+    {
+      "id": "archer",
+      "name": "Archer",
+      "tagline": "Long-range and precise",
+      "strengths": [
+        "Evasive Shot (E): mobility plus multi-shot",
+        "Rain of Vengeance (R): AoE damage and slow",
+        "Longshot: damage scales with distance"
+      ],
+      "weaknesses": [
+        "Fragile at close range",
+        "Requires good aim and spacing"
+      ]
+    },
+    {
+      "id": "assassin",
+      "name": "Assassin",
+      "tagline": "Fast and opportunistic",
+      "strengths": [
+        "Shadow Step (E): rapid repositioning",
+        "Phantom Edge (R): invisibility and execute",
+        "Backstab crits from behind"
+      ],
+      "weaknesses": [
+        "Low durability",
+        "Needs flanking and positioning"
+      ]
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "tagline": "Risky and savage",
+      "strengths": [
+        "Primal Roar (E): stun and attack speed",
+        "Undying Rage (R): temporary immortality",
+        "Damage scales with missing HP"
+      ],
+      "weaknesses": [
+        "High-risk low-HP playstyle",
+        "Melee range dependence"
+      ]
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "tagline": "Holy and protective",
+      "strengths": [
+        "Radiance (E): heal allies and slow enemies",
+        "Dawnbreaker (R): shields and blind",
+        "Strong frontline support"
+      ],
+      "weaknesses": [
+        "Lower burst damage",
+        "Long cooldowns"
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "Mage",
+      "tagline": "Arcane and controlling",
+      "strengths": [
+        "Void Rift (E): pull and control",
+        "Arcane Torrent (R): ranged burst",
+        "Good crowd control"
+      ],
+      "weaknesses": [
+        "Squishy defenses",
+        "Vulnerable during casts"
+      ]
+    },
+    {
+      "id": "gunslinger",
+      "name": "Gunslinger",
+      "tagline": "Explosive and relentless",
+      "strengths": [
+        "Flashbang (E): stun and armor break",
+        "Lead Storm (R): sustained AoE damage",
+        "High pressure at mid-range"
+      ],
+      "weaknesses": [
+        "Exposure during burst windows",
+        "Requires ammo/position control"
+      ]
+    },
+    {
+      "id": "spearman",
+      "name": "Spearman",
+      "tagline": "Agile and steadfast",
+      "strengths": [
+        "Whirlwind (E): knockback and defense",
+        "Thunderfall (R): gap close and finisher",
+        "Strong control in melee"
+      ],
+      "weaknesses": [
+        "Limited ranged options",
+        "Requires positioning to maximize hits"
+      ]
+    },
+    {
+      "id": "mace_bearer",
+      "name": "Mace Bearer",
+      "tagline": "Heavy and armor-piercing",
+      "strengths": [
+        "Armor Breaker: ignores part of armor",
+        "Splash Damage on melee hits",
+        "Great versus armored targets"
+      ],
+      "weaknesses": [
+        "Slower attack patterns",
+        "Needs mace weapon equipped"
+      ]
+    }
+  ]
+}

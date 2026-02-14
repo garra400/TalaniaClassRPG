@@ -1,23 +1,32 @@
 package com.talania.classrpg.commands;
 
-import com.talania.classrpg.ClassType;
-import com.talania.classrpg.ui.ClassSelectionPage;
-import com.talania.core.profile.TalaniaProfileRuntime;
-import com.talania.core.profile.TalaniaPlayerProfile;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.NameMatching;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.command.system.arguments.system.OptionalArg;
 import com.hypixel.hytale.server.core.command.system.arguments.system.RequiredArg;
 import com.hypixel.hytale.server.core.command.system.arguments.types.ArgTypes;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractCommandCollection;
+import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayerCommand;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.entity.entities.player.pages.PageManager;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.talania.classrpg.ClassService;
+import com.talania.classrpg.ClassType;
+import com.talania.classrpg.config.ClassDefinitionsConfig;
+import com.talania.classrpg.ui.ClassSelectionPage;
+import com.talania.core.profile.TalaniaPlayerProfile;
+import com.talania.core.profile.TalaniaProfileRuntime;
+
 import javax.annotation.Nonnull;
 import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * RPG Class management commands for TalaniaClassRPG.
@@ -29,38 +38,111 @@ import java.util.List;
  * /class info [--player <name>]
  */
 public class ClassCommands extends AbstractCommandCollection {
-    public ClassCommands() {
+    private final ClassService classService;
+    private final TalaniaProfileRuntime profileRuntime;
+    private final ClassDefinitionsConfig classDefinitions;
+
+    public ClassCommands(ClassService classService,
+                         TalaniaProfileRuntime profileRuntime,
+                         ClassDefinitionsConfig classDefinitions) {
         super("class", "Class management commands");
+        this.classService = classService;
+        this.profileRuntime = profileRuntime;
+        this.classDefinitions = classDefinitions;
         addSubCommand(new SelectCommand());
         addSubCommand(new ChangeCommand());
         addSubCommand(new ResetCommand());
         addSubCommand(new InfoCommand());
     }
 
+    @Override
+    protected boolean canGeneratePermission() {
+        return false;
+    }
+
     // /class select
-    private static class SelectCommand extends AbstractPlayerCommand {
+    private class SelectCommand extends AbstractPlayerCommand {
         private final OptionalArg<String> playerArg;
         public SelectCommand() {
             super("select", "Open class selection UI", false);
             this.playerArg = withOptionalArg("player", "Target player (admin only)", ArgTypes.STRING);
         }
         @Override
-        protected void execute(@Nonnull CommandContext ctx, @Nonnull EntityStore store, @Nonnull com.hypixel.hytale.component.Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
+        protected boolean canGeneratePermission() {
+            return false;
+        }
+        @Override
+        protected void execute(@Nonnull CommandContext ctx,
+                               @Nonnull Store<EntityStore> store,
+                               @Nonnull Ref<EntityStore> ref,
+                               @Nonnull PlayerRef playerRef,
+                               @Nonnull World world) {
             String targetName = playerArg.get(ctx);
-            PlayerRef targetRef = (targetName == null) ? playerRef : Universe.get().getPlayerByUsername(targetName);
-            if (targetRef == null) {
-                ctx.sendMessage("Player not found.");
+            PlayerRef targetRef;
+            Player targetPlayer;
+            Ref<EntityStore> targetEntityRef;
+            Store<EntityStore> targetStore;
+
+            if (targetName == null || targetName.isEmpty()) {
+                targetRef = playerRef;
+                targetPlayer = store.getComponent(ref, Player.getComponentType());
+                targetEntityRef = ref;
+                targetStore = store;
+            } else {
+                targetRef = Universe.get().getPlayerByUsername(targetName, NameMatching.EXACT_IGNORE_CASE);
+                if (targetRef == null) {
+                    ctx.sendMessage(Message.raw("Player not found."));
+                    return;
+                }
+
+                UUID worldUuid = targetRef.getWorldUuid();
+                if (worldUuid == null) {
+                    ctx.sendMessage(Message.raw("Player is not in a world."));
+                    return;
+                }
+
+                targetPlayer = (Player) Universe.get().getWorld(worldUuid).getEntity(targetRef.getUuid());
+                if (targetPlayer == null) {
+                    ctx.sendMessage(Message.raw("Player is not online."));
+                    return;
+                }
+
+                targetEntityRef = null;
+                targetStore = null;
+            }
+
+            if (targetPlayer == null) {
+                ctx.sendMessage(Message.raw("Player data not available."));
                 return;
             }
-            List<ClassType> classList = Arrays.asList(ClassType.values());
-            // Open UI (integration with UI system required)
-            new ClassSelectionPage(targetRef, classList, null, 0).build();
-            ctx.sendMessage("Class selection UI opened.");
+
+            PageManager pages = targetPlayer.getPageManager();
+            if (pages.getCustomPage() instanceof ClassSelectionPage) {
+                ctx.sendMessage(Message.raw("Class selection UI already open."));
+                return;
+            }
+
+            String currentClassId = null;
+            if (classService != null) {
+                ClassType current = classService.getAssigned(targetRef.getUuid());
+                currentClassId = current != null ? current.id() : null;
+            }
+
+            try {
+                pages.openCustomPage(
+                        targetEntityRef != null ? targetEntityRef : ref,
+                        targetStore != null ? targetStore : store,
+                        new ClassSelectionPage(targetRef, classService, classDefinitions, currentClassId, 0)
+                );
+                ctx.sendMessage(Message.raw("Class selection UI opened."));
+            } catch (Exception e) {
+                ctx.sendMessage(Message.raw("Failed to open class selection UI: " + e.getMessage()));
+            }
         }
     }
 
     // /class change <class>
-    private static class ChangeCommand extends AbstractPlayerCommand {
+    private class ChangeCommand extends AbstractPlayerCommand {
         private final RequiredArg<String> classArg;
         private final OptionalArg<String> playerArg;
         public ChangeCommand() {
@@ -69,59 +151,183 @@ public class ClassCommands extends AbstractCommandCollection {
             this.playerArg = withOptionalArg("player", "Target player (admin only)", ArgTypes.STRING);
         }
         @Override
-        protected void execute(@Nonnull CommandContext ctx, @Nonnull EntityStore store, @Nonnull com.hypixel.hytale.component.Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
-            String classId = classArg.get(ctx);
-            String targetName = playerArg.get(ctx);
-            PlayerRef targetRef = (targetName == null) ? playerRef : Universe.get().getPlayerByUsername(targetName);
-            if (targetRef == null) {
-                ctx.sendMessage("Player not found.");
+        protected boolean canGeneratePermission() {
+            return false;
+        }
+        @Override
+        protected void execute(@Nonnull CommandContext ctx,
+                               @Nonnull Store<EntityStore> store,
+                               @Nonnull Ref<EntityStore> ref,
+                               @Nonnull PlayerRef playerRef,
+                               @Nonnull World world) {
+            String classIdInput = classArg.get(ctx);
+            String classId = classIdInput != null ? classIdInput.toLowerCase() : null;
+            ClassType classType = ClassType.fromId(classId);
+            if (classType == null) {
+                ctx.sendMessage(Message.raw("Invalid class. Valid classes: " + listValidClasses()));
                 return;
             }
-            TalaniaPlayerProfile profile = TalaniaProfileRuntime.get().load(targetRef.getUuid());
-            profile.setClassId(classId);
-            ctx.sendMessage("Class changed to " + classId + ".");
+            String targetName = playerArg.get(ctx);
+            PlayerRef targetRef;
+            Player targetPlayer;
+
+            if (targetName == null || targetName.isEmpty()) {
+                targetRef = playerRef;
+                targetPlayer = store.getComponent(ref, Player.getComponentType());
+            } else {
+                targetRef = Universe.get().getPlayerByUsername(targetName, NameMatching.EXACT_IGNORE_CASE);
+                if (targetRef == null) {
+                    ctx.sendMessage(Message.raw("Player not found."));
+                    return;
+                }
+                UUID worldUuid = targetRef.getWorldUuid();
+                if (worldUuid == null) {
+                    ctx.sendMessage(Message.raw("Player is not in a world."));
+                    return;
+                }
+                targetPlayer = (Player) Universe.get().getWorld(worldUuid).getEntity(targetRef.getUuid());
+            }
+
+            if (targetPlayer == null) {
+                ctx.sendMessage(Message.raw("Player is not online."));
+                return;
+            }
+
+            if (classService != null) {
+                classService.setAssigned(targetRef.getUuid(), classType);
+            } else if (profileRuntime != null) {
+                TalaniaPlayerProfile profile = profileRuntime.load(targetRef.getUuid());
+                if (profile != null) {
+                    profile.setClassId(classType.id());
+                }
+            }
+
+            ctx.sendMessage(Message.raw("Class changed to " + classType.displayName() + "."));
         }
     }
 
     // /class reset
-    private static class ResetCommand extends AbstractPlayerCommand {
+    private class ResetCommand extends AbstractPlayerCommand {
         private final OptionalArg<String> playerArg;
         public ResetCommand() {
             super("reset", "Reset class to none", false);
             this.playerArg = withOptionalArg("player", "Target player (admin only)", ArgTypes.STRING);
         }
         @Override
-        protected void execute(@Nonnull CommandContext ctx, @Nonnull EntityStore store, @Nonnull com.hypixel.hytale.component.Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
+        protected boolean canGeneratePermission() {
+            return false;
+        }
+        @Override
+        protected void execute(@Nonnull CommandContext ctx,
+                               @Nonnull Store<EntityStore> store,
+                               @Nonnull Ref<EntityStore> ref,
+                               @Nonnull PlayerRef playerRef,
+                               @Nonnull World world) {
             String targetName = playerArg.get(ctx);
-            PlayerRef targetRef = (targetName == null) ? playerRef : Universe.get().getPlayerByUsername(targetName);
-            if (targetRef == null) {
-                ctx.sendMessage("Player not found.");
+            PlayerRef targetRef;
+            Player targetPlayer;
+
+            if (targetName == null || targetName.isEmpty()) {
+                targetRef = playerRef;
+                targetPlayer = store.getComponent(ref, Player.getComponentType());
+            } else {
+                targetRef = Universe.get().getPlayerByUsername(targetName, NameMatching.EXACT_IGNORE_CASE);
+                if (targetRef == null) {
+                    ctx.sendMessage(Message.raw("Player not found."));
+                    return;
+                }
+                UUID worldUuid = targetRef.getWorldUuid();
+                if (worldUuid == null) {
+                    ctx.sendMessage(Message.raw("Player is not in a world."));
+                    return;
+                }
+                targetPlayer = (Player) Universe.get().getWorld(worldUuid).getEntity(targetRef.getUuid());
+            }
+
+            if (targetPlayer == null) {
+                ctx.sendMessage(Message.raw("Player is not online."));
                 return;
             }
-            TalaniaPlayerProfile profile = TalaniaProfileRuntime.get().load(targetRef.getUuid());
-            profile.setClassId(null);
-            ctx.sendMessage("Class reset.");
+
+            if (classService != null) {
+                classService.clear(targetRef.getUuid());
+            } else if (profileRuntime != null) {
+                TalaniaPlayerProfile profile = profileRuntime.load(targetRef.getUuid());
+                if (profile != null) {
+                    profile.setClassId(null);
+                }
+            }
+
+            ctx.sendMessage(Message.raw("Class reset."));
+
+            try {
+                PageManager pages = targetPlayer.getPageManager();
+                pages.openCustomPage(ref, store,
+                        new ClassSelectionPage(targetRef, classService, classDefinitions, null, 0));
+            } catch (Exception ignored) {
+            }
         }
     }
 
     // /class info
-    private static class InfoCommand extends AbstractPlayerCommand {
+    private class InfoCommand extends AbstractPlayerCommand {
         private final OptionalArg<String> playerArg;
         public InfoCommand() {
             super("info", "Show current class info", false);
             this.playerArg = withOptionalArg("player", "Target player (admin only)", ArgTypes.STRING);
         }
         @Override
-        protected void execute(@Nonnull CommandContext ctx, @Nonnull EntityStore store, @Nonnull com.hypixel.hytale.component.Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
+        protected boolean canGeneratePermission() {
+            return false;
+        }
+        @Override
+        protected void execute(@Nonnull CommandContext ctx,
+                               @Nonnull Store<EntityStore> store,
+                               @Nonnull Ref<EntityStore> ref,
+                               @Nonnull PlayerRef playerRef,
+                               @Nonnull World world) {
             String targetName = playerArg.get(ctx);
-            PlayerRef targetRef = (targetName == null) ? playerRef : Universe.get().getPlayerByUsername(targetName);
-            if (targetRef == null) {
-                ctx.sendMessage("Player not found.");
+            PlayerRef targetRef;
+            Player targetPlayer;
+
+            if (targetName == null || targetName.isEmpty()) {
+                targetRef = playerRef;
+                targetPlayer = store.getComponent(ref, Player.getComponentType());
+            } else {
+                targetRef = Universe.get().getPlayerByUsername(targetName, NameMatching.EXACT_IGNORE_CASE);
+                if (targetRef == null) {
+                    ctx.sendMessage(Message.raw("Player not found."));
+                    return;
+                }
+                UUID worldUuid = targetRef.getWorldUuid();
+                if (worldUuid == null) {
+                    ctx.sendMessage(Message.raw("Player is not in a world."));
+                    return;
+                }
+                targetPlayer = (Player) Universe.get().getWorld(worldUuid).getEntity(targetRef.getUuid());
+            }
+
+            if (targetPlayer == null) {
+                ctx.sendMessage(Message.raw("Player is not online."));
                 return;
             }
-            TalaniaPlayerProfile profile = TalaniaProfileRuntime.get().load(targetRef.getUuid());
-            String classId = profile.classId();
-            ctx.sendMessage("Current class: " + (classId != null ? classId : "none"));
+
+            String classId = null;
+            if (profileRuntime != null) {
+                TalaniaPlayerProfile profile = profileRuntime.load(targetRef.getUuid());
+                classId = profile != null ? profile.classId() : null;
+            } else if (classService != null) {
+                ClassType current = classService.getAssigned(targetRef.getUuid());
+                classId = current != null ? current.id() : null;
+            }
+
+            ctx.sendMessage(Message.raw("Current class: " + (classId != null ? classId : "none")));
         }
+    }
+
+    private static String listValidClasses() {
+        return Arrays.stream(ClassType.values())
+                .map(ClassType::id)
+                .collect(Collectors.joining(", "));
     }
 }

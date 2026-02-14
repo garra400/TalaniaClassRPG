@@ -1,7 +1,9 @@
 package com.talania.classrpg;
 
+import com.hypixel.hytale.server.core.command.system.CommandRegistry;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.talania.core.localization.TranslationManager;
 
 import javax.annotation.Nonnull;
 
@@ -13,8 +15,19 @@ public final class TalaniaClassRpgPlugin extends JavaPlugin {
 
     @Override
     protected void start() {
+        if (runtime == null) {
+            this.runtime = new ClassRpgRuntime(getDataDirectory());
+        }
+
+        TranslationManager.initialize(getDataDirectory());
+        TranslationManager.registerBundledLanguages(TalaniaClassRpgPlugin.class, "en", "pt_br");
+
         // Registra comandos de classe
-        getCommandRegistry().register(new com.talania.classrpg.commands.ClassCommands());
+        CommandRegistry commands = getCommandRegistry();
+        commands.registerCommand(new com.talania.classrpg.commands.ClassCommands(
+                runtime.classService(),
+                runtime.profileRuntime(),
+                runtime.classDefinitions()));
     }
 
     public TalaniaClassRpgPlugin(@Nonnull JavaPluginInit init) {
@@ -23,7 +36,9 @@ public final class TalaniaClassRpgPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
-        this.runtime = new ClassRpgRuntime(getDataDirectory());
+        if (runtime == null) {
+            this.runtime = new ClassRpgRuntime(getDataDirectory());
+        }
         getEntityStoreRegistry().registerSystem(
                 new com.talania.classrpg.combat.ClassRpgCombatSystem(
                         runtime.classService(),

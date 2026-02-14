@@ -1,0 +1,92 @@
+@PageOverlay {
+  Anchor: (Full: 1);
+  LayoutMode: Center;
+  Background: #000000(0.55);
+}
+
+@DecoratedContainer {
+  LayoutMode: Top;
+  Padding: (Full: 15);
+  Background: #1a1a1a(0.95);
+  Border: (Color: #404040(0.4), Thickness: 2);
+  CornerRadius: 8;
+
+  Group #Title {
+    Anchor: (Height: 36);
+  }
+
+  Group #Content {
+    LayoutMode: Top;
+    FlexWeight: 1;
+  }
+}
+
+@Title {
+  Label #TitleText {
+    Style: (FontSize: 24, RenderBold: true, TextColor: #ffffff);
+    Text: @Text;
+  }
+}
+
+@Subtitle {
+  Label {
+    Style: (FontSize: 14, TextColor: #c0c0c0);
+    Text: @Text;
+  }
+}
+
+@TextButton {
+  Button {
+    Anchor: (Width: 160, Height: 34);
+    Background: #2d7b4c;
+    Border: (Color: #1f5a37(0.7), Thickness: 1);
+    Style: (RenderBold: true, TextColor: #ffffff);
+    Padding: (Full: 6);
+  }
+}
+
+@SecondaryTextButton {
+  Button {
+    Anchor: (Width: 120, Height: 32);
+    Background: #2a2a2a;
+    Border: (Color: #606060(0.7), Thickness: 1);
+    Style: (TextColor: #ffffff);
+    Padding: (Full: 6);
+  }
+}
+
+@CancelTextButton {
+  Button {
+    Anchor: (Width: 120, Height: 32);
+    Background: #3a3a3a;
+    Border: (Color: #606060(0.7), Thickness: 1);
+    Style: (TextColor: #ffffff);
+    Padding: (Full: 6);
+  }
+}
+
+@BackButton {
+  Button {
+    Anchor: (Width: 120, Height: 32);
+    Background: #2a2a2a;
+    Border: (Color: #606060(0.7), Thickness: 1);
+    Style: (TextColor: #ffffff);
+    Padding: (Full: 6);
+  }
+}
+
+@PageButton {
+  Button {
+    Anchor: (Width: 100, Height: 32);
+    Background: #2a2a2a;
+    Border: (Color: #606060(0.7), Thickness: 1);
+    Style: (TextColor: #ffffff);
+    Padding: (Full: 6);
+  }
+}
+
+@DefaultScrollbarStyle {
+  Width: 8;
+  TrackColor: #2a2a2a;
+  ThumbColor: #555555;
+}
