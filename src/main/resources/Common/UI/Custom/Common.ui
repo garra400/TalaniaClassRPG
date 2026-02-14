@@ -1,10 +1,60 @@
-@PageOverlay {
-  Anchor: (Full: 1);
-  LayoutMode: Center;
-  Background: #000000(0.55);
-}
+@PrimaryTextButtonStyle = TextButtonStyle(
+  Default: (Background: #2d7b4c, LabelStyle: (TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center)),
+  Hovered: (Background: #3a915f, LabelStyle: (TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center)),
+  Pressed: (Background: #256840, LabelStyle: (TextColor: #ffffff, RenderBold: true, HorizontalAlignment: Center)),
+  Disabled: (Background: #2d7b4c(0.4), LabelStyle: (TextColor: #ffffff(0.6), RenderBold: true, HorizontalAlignment: Center))
+);
 
-@DecoratedContainer {
+@SecondaryTextButtonStyle = TextButtonStyle(
+  Default: (Background: #2a2a2a, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Hovered: (Background: #3a3a3a, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Pressed: (Background: #242424, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Disabled: (Background: #2a2a2a(0.4), LabelStyle: (TextColor: #cccccc, HorizontalAlignment: Center))
+);
+
+@CancelTextButtonStyle = TextButtonStyle(
+  Default: (Background: #3a3a3a, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Hovered: (Background: #4a4a4a, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Pressed: (Background: #2f2f2f, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Disabled: (Background: #3a3a3a(0.4), LabelStyle: (TextColor: #cccccc, HorizontalAlignment: Center))
+);
+
+@PageButtonStyle = TextButtonStyle(
+  Default: (Background: #2a2a2a, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Hovered: (Background: #333333, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Pressed: (Background: #242424, LabelStyle: (TextColor: #ffffff, HorizontalAlignment: Center)),
+  Disabled: (Background: #2a2a2a(0.4), LabelStyle: (TextColor: #cccccc, HorizontalAlignment: Center))
+);
+
+@SelectionCardStyle = ButtonStyle(
+  Default: (Background: #1a1a2e(0.9)),
+  Hovered: (Background: #23233e(0.95)),
+  Pressed: (Background: #2c2c4d(0.95)),
+  Disabled: (Background: #1a1a2e(0.4))
+);
+
+@SelectionCardStyleSelected = ButtonStyle(
+  Default: (Background: #2d2d55(0.9)),
+  Hovered: (Background: #383869(0.95)),
+  Pressed: (Background: #2a2a5f(0.95)),
+  Disabled: (Background: #2d2d55(0.5))
+);
+
+@DefaultScrollbarStyle = ScrollbarStyle(
+  Size: 8,
+  Background: #2a2a2a,
+  Handle: #555555,
+  HoveredHandle: #6a6a6a,
+  DraggedHandle: #7a7a7a
+);
+
+@PageOverlay = Group {
+  Anchor: (Full: 1);
+  LayoutMode: Middle;
+  Background: #000000(0.55);
+};
+
+@DecoratedContainer = Group {
   LayoutMode: Top;
   Padding: (Full: 15);
   Background: #1a1a1a(0.95);
@@ -19,74 +69,44 @@
     LayoutMode: Top;
     FlexWeight: 1;
   }
-}
+};
 
-@Title {
-  Label #TitleText {
-    Style: (FontSize: 24, RenderBold: true, TextColor: #ffffff);
-    Text: @Text;
-  }
-}
+@Title = Label {
+  Style: (FontSize: 24, RenderBold: true, TextColor: #ffffff);
+  Text: @Text;
+};
 
-@Subtitle {
-  Label {
-    Style: (FontSize: 14, TextColor: #c0c0c0);
-    Text: @Text;
-  }
-}
+@Subtitle = Label {
+  Style: (FontSize: 14, TextColor: #c0c0c0);
+  Text: @Text;
+};
 
-@TextButton {
-  Button {
-    Anchor: (Width: 160, Height: 34);
-    Background: #2d7b4c;
-    Border: (Color: #1f5a37(0.7), Thickness: 1);
-    Style: (RenderBold: true, TextColor: #ffffff);
-    Padding: (Full: 6);
-  }
-}
+@TextButton = TextButton {
+  Anchor: (Width: 160, Height: 34);
+  Style: @PrimaryTextButtonStyle;
+  Padding: (Full: 6);
+};
 
-@SecondaryTextButton {
-  Button {
-    Anchor: (Width: 120, Height: 32);
-    Background: #2a2a2a;
-    Border: (Color: #606060(0.7), Thickness: 1);
-    Style: (TextColor: #ffffff);
-    Padding: (Full: 6);
-  }
-}
+@SecondaryTextButton = TextButton {
+  Anchor: (Width: 120, Height: 32);
+  Style: @SecondaryTextButtonStyle;
+  Padding: (Full: 6);
+};
 
-@CancelTextButton {
-  Button {
-    Anchor: (Width: 120, Height: 32);
-    Background: #3a3a3a;
-    Border: (Color: #606060(0.7), Thickness: 1);
-    Style: (TextColor: #ffffff);
-    Padding: (Full: 6);
-  }
-}
+@CancelTextButton = TextButton {
+  Anchor: (Width: 120, Height: 32);
+  Style: @CancelTextButtonStyle;
+  Padding: (Full: 6);
+};
 
-@BackButton {
-  Button {
-    Anchor: (Width: 120, Height: 32);
-    Background: #2a2a2a;
-    Border: (Color: #606060(0.7), Thickness: 1);
-    Style: (TextColor: #ffffff);
-    Padding: (Full: 6);
-  }
-}
+@BackButton = TextButton {
+  Anchor: (Width: 120, Height: 32);
+  Style: @SecondaryTextButtonStyle;
+  Padding: (Full: 6);
+};
 
-@PageButton {
-  Button {
-    Anchor: (Width: 100, Height: 32);
-    Background: #2a2a2a;
-    Border: (Color: #606060(0.7), Thickness: 1);
-    Style: (TextColor: #ffffff);
-    Padding: (Full: 6);
-  }
-}
-
-@DefaultScrollbarStyle {
-  Width: 8;
-  TrackColor: #2a2a2a;
-  ThumbColor: #555555;
-}
+@PageButton = TextButton {
+  Anchor: (Width: 100, Height: 32);
+  Style: @PageButtonStyle;
+  Padding: (Full: 6);
+};

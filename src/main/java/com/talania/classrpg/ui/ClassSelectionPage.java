@@ -126,8 +126,8 @@ public class ClassSelectionPage extends InteractiveCustomUIPage<ClassSelectionPa
             int btnIndex = i - start;
             String buttonId = "#ClassButton" + btnIndex;
             String selectedStyle = classId.equalsIgnoreCase(effectiveClassId)
-                    ? "Background: #2d2d55(0.9);"
-                    : "Background: #1a1a2e(0.9);";
+                    ? "Style: $C.@SelectionCardStyleSelected;"
+                    : "Style: $C.@SelectionCardStyle;";
 
             cmd.appendInline("#ClassButtons", String.format("""
                     Button %s {

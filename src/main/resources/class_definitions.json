@@ -1,31 +1,17 @@
-{
+﻿{
   "classes": [
     {
       "id": "swordmaster",
       "name": "Swordmaster",
       "tagline": "Balanced and controlled",
       "strengths": [
-        "Blade Barrier (E): +30% attack speed and frontal guard",
-        "Valdor's Verdict (R): wide knockback wave",
-        "Duelist: stronger in 1v1 combat"
+        "Blade Barrier (E): +30% attack speed and frontal block for 3s",
+        "Counter-Guard: next hit deals +30% damage after a block",
+        "Duelist: +15% sword speed and armor penetration in 1v1"
       ],
       "weaknesses": [
-        "Requires precise timing to block",
-        "Lower burst against heavy armor"
-      ]
-    },
-    {
-      "id": "archer",
-      "name": "Archer",
-      "tagline": "Long-range and precise",
-      "strengths": [
-        "Evasive Shot (E): mobility plus multi-shot",
-        "Rain of Vengeance (R): AoE damage and slow",
-        "Longshot: damage scales with distance"
-      ],
-      "weaknesses": [
-        "Fragile at close range",
-        "Requires good aim and spacing"
+        "Counter-Guard requires precise block timing",
+        "Duelist bonus only when no enemies within 5 blocks"
       ]
     },
     {
@@ -33,83 +19,13 @@
       "name": "Assassin",
       "tagline": "Fast and opportunistic",
       "strengths": [
-        "Shadow Step (E): rapid repositioning",
-        "Phantom Edge (R): invisibility and execute",
-        "Backstab crits from behind"
+        "Shadow Step (E): 8-block dash, invulnerable during dash",
+        "Backstab: hits from behind crit for 150% to 200% damage",
+        "Venomous: 3 consecutive dagger hits poison for 5s"
       ],
       "weaknesses": [
-        "Low durability",
-        "Needs flanking and positioning"
-      ]
-    },
-    {
-      "id": "berserker",
-      "name": "Berserker",
-      "tagline": "Risky and savage",
-      "strengths": [
-        "Primal Roar (E): stun and attack speed",
-        "Undying Rage (R): temporary immortality",
-        "Damage scales with missing HP"
-      ],
-      "weaknesses": [
-        "High-risk low-HP playstyle",
-        "Melee range dependence"
-      ]
-    },
-    {
-      "id": "paladin",
-      "name": "Paladin",
-      "tagline": "Holy and protective",
-      "strengths": [
-        "Radiance (E): heal allies and slow enemies",
-        "Dawnbreaker (R): shields and blind",
-        "Strong frontline support"
-      ],
-      "weaknesses": [
-        "Lower burst damage",
-        "Long cooldowns"
-      ]
-    },
-    {
-      "id": "mage",
-      "name": "Mage",
-      "tagline": "Arcane and controlling",
-      "strengths": [
-        "Void Rift (E): pull and control",
-        "Arcane Torrent (R): ranged burst",
-        "Good crowd control"
-      ],
-      "weaknesses": [
-        "Squishy defenses",
-        "Vulnerable during casts"
-      ]
-    },
-    {
-      "id": "gunslinger",
-      "name": "Gunslinger",
-      "tagline": "Explosive and relentless",
-      "strengths": [
-        "Flashbang (E): stun and armor break",
-        "Lead Storm (R): sustained AoE damage",
-        "High pressure at mid-range"
-      ],
-      "weaknesses": [
-        "Exposure during burst windows",
-        "Requires ammo/position control"
-      ]
-    },
-    {
-      "id": "spearman",
-      "name": "Spearman",
-      "tagline": "Agile and steadfast",
-      "strengths": [
-        "Whirlwind (E): knockback and defense",
-        "Thunderfall (R): gap close and finisher",
-        "Strong control in melee"
-      ],
-      "weaknesses": [
-        "Limited ranged options",
-        "Requires positioning to maximize hits"
+        "Backstab requires attacking from behind",
+        "Venomous requires 3 consecutive hits on the same target"
       ]
     },
     {
@@ -117,13 +33,97 @@
       "name": "Mace Bearer",
       "tagline": "Heavy and armor-piercing",
       "strengths": [
-        "Armor Breaker: ignores part of armor",
-        "Splash Damage on melee hits",
-        "Great versus armored targets"
+        "Armor Breaker: mace hits ignore 25% of enemy armor",
+        "Splash Damage: normal attacks deal 30% splash within 2 blocks",
+        "Heavy melee specialist for armored targets"
       ],
       "weaknesses": [
-        "Slower attack patterns",
-        "Needs mace weapon equipped"
+        "Bonuses require a mace weapon equipped",
+        "Splash damage is limited to a 2-block radius"
+      ]
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "tagline": "Risky and savage",
+      "strengths": [
+        "Primal Roar (E): 1s stun and attack speed boost",
+        "Bloodlust: damage increases with missing HP",
+        "Executioner: double damage to targets below 30% HP"
+      ],
+      "weaknesses": [
+        "Power peaks at low HP (high risk)",
+        "Executioner only triggers under 30% target HP"
+      ]
+    },
+    {
+      "id": "archer",
+      "name": "Archer",
+      "tagline": "Long-range and precise",
+      "strengths": [
+        "Evasive Shot (E): backflip + 3-arrow fan + knockback",
+        "Longshot: +1% damage per block traveled",
+        "Hawkeye: headshots guarantee +60% crit when fully drawn"
+      ],
+      "weaknesses": [
+        "Longshot deals less damage at close range",
+        "Fully drawn bow reduces movement speed"
+      ]
+    },
+    {
+      "id": "paladin",
+      "name": "Paladin",
+      "tagline": "Holy and protective",
+      "strengths": [
+        "Radiance (E): heals allies and slows enemies",
+        "Dawnbreaker (R): blinds, burns, and shields allies",
+        "Strong area support tools"
+      ],
+      "weaknesses": [
+        "Ultimate cooldown is long (100s)",
+        "Area skills require good positioning"
+      ]
+    },
+    {
+      "id": "mage",
+      "name": "Mage",
+      "tagline": "Arcane and controlling",
+      "strengths": [
+        "Void Rift (E): pulls enemies to the center",
+        "Arcane Torrent (R): invulnerable while casting",
+        "Strong control and burst windows"
+      ],
+      "weaknesses": [
+        "Rooted in place during Arcane Torrent",
+        "Ultimate cooldown is long (75s)"
+      ]
+    },
+    {
+      "id": "gunslinger",
+      "name": "Gunslinger",
+      "tagline": "Explosive and relentless",
+      "strengths": [
+        "Flashbang (E): stuns and breaks armor",
+        "Lead Storm (R): 360-degree close-range AoE",
+        "Strong burst around targets"
+      ],
+      "weaknesses": [
+        "Needs close range to maximize Lead Storm",
+        "Ultimate cooldown is 50s"
+      ]
+    },
+    {
+      "id": "spearman",
+      "name": "Spearman",
+      "tagline": "Agile and steadfast",
+      "strengths": [
+        "Whirlwind (E): knockback and deflects projectiles",
+        "Thunderfall (R): spear throw, lightning, teleport",
+        "Strong melee control and reposition"
+      ],
+      "weaknesses": [
+        "Thunderfall cooldown is 65s",
+        "Requires timing and spacing to land the spear"
       ]
     }
   ]
