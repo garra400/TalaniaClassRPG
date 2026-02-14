@@ -19,6 +19,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.talania.classrpg.ClassService;
 import com.talania.classrpg.ClassType;
 import com.talania.classrpg.config.ClassDefinitionsConfig;
+import com.talania.classrpg.config.ClassRpgConfig;
+import com.talania.classrpg.ui.ClassProfilePage;
 import com.talania.classrpg.ui.ClassSelectionPage;
 import com.talania.core.profile.TalaniaPlayerProfile;
 import com.talania.core.profile.TalaniaProfileRuntime;
@@ -36,23 +38,28 @@ import java.util.stream.Collectors;
  * /class change <class> [--player <name>]
  * /class reset [--player <name>]
  * /class info [--player <name>]
+ * /class profile [--player <name>]
  */
 public class ClassCommands extends AbstractCommandCollection {
     private final ClassService classService;
     private final TalaniaProfileRuntime profileRuntime;
     private final ClassDefinitionsConfig classDefinitions;
+    private final ClassRpgConfig config;
 
     public ClassCommands(ClassService classService,
                          TalaniaProfileRuntime profileRuntime,
-                         ClassDefinitionsConfig classDefinitions) {
+                         ClassDefinitionsConfig classDefinitions,
+                         ClassRpgConfig config) {
         super("class", "Class management commands");
         this.classService = classService;
         this.profileRuntime = profileRuntime;
         this.classDefinitions = classDefinitions;
+        this.config = config;
         addSubCommand(new SelectCommand());
         addSubCommand(new ChangeCommand());
         addSubCommand(new ResetCommand());
         addSubCommand(new InfoCommand());
+        addSubCommand(new ProfileCommand());
     }
 
     @Override
@@ -322,6 +329,75 @@ public class ClassCommands extends AbstractCommandCollection {
             }
 
             ctx.sendMessage(Message.raw("Current class: " + (classId != null ? classId : "none")));
+        }
+    }
+
+    // /class profile
+    private class ProfileCommand extends AbstractPlayerCommand {
+        private final OptionalArg<String> playerArg;
+
+        public ProfileCommand() {
+            super("profile", "Show RPG profile UI", false);
+            this.playerArg = withOptionalArg("player", "Target player (admin only)", ArgTypes.STRING);
+        }
+
+        @Override
+        protected boolean canGeneratePermission() {
+            return false;
+        }
+
+        @Override
+        protected void execute(@Nonnull CommandContext ctx,
+                               @Nonnull Store<EntityStore> store,
+                               @Nonnull Ref<EntityStore> ref,
+                               @Nonnull PlayerRef playerRef,
+                               @Nonnull World world) {
+            String targetName = playerArg.get(ctx);
+            PlayerRef targetRef;
+            Player targetPlayer;
+            Ref<EntityStore> targetEntityRef;
+            Store<EntityStore> targetStore;
+
+            if (targetName == null || targetName.isEmpty()) {
+                targetRef = playerRef;
+                targetPlayer = store.getComponent(ref, Player.getComponentType());
+                targetEntityRef = ref;
+                targetStore = store;
+            } else {
+                targetRef = Universe.get().getPlayerByUsername(targetName, NameMatching.EXACT_IGNORE_CASE);
+                if (targetRef == null) {
+                    ctx.sendMessage(Message.raw("Player not found."));
+                    return;
+                }
+                UUID worldUuid = targetRef.getWorldUuid();
+                if (worldUuid == null) {
+                    ctx.sendMessage(Message.raw("Player is not in a world."));
+                    return;
+                }
+                targetPlayer = (Player) Universe.get().getWorld(worldUuid).getEntity(targetRef.getUuid());
+                if (targetPlayer == null) {
+                    ctx.sendMessage(Message.raw("Player is not online."));
+                    return;
+                }
+                targetEntityRef = null;
+                targetStore = null;
+            }
+
+            if (targetPlayer == null) {
+                ctx.sendMessage(Message.raw("Player data not available."));
+                return;
+            }
+
+            try {
+                targetPlayer.getPageManager().openCustomPage(
+                        targetEntityRef != null ? targetEntityRef : ref,
+                        targetStore != null ? targetStore : store,
+                        new ClassProfilePage(targetRef, classService, profileRuntime, config, classDefinitions)
+                );
+                ctx.sendMessage(Message.raw("Profile UI opened."));
+            } catch (Exception e) {
+                ctx.sendMessage(Message.raw("Failed to open profile UI: " + e.getMessage()));
+            }
         }
     }
 

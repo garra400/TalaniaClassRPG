@@ -1,0 +1,123 @@
+$C = "../Common.ui";
+
+$C.@PageOverlay {
+  $C.@DecoratedContainer {
+    Anchor: (Width: 900, Height: 640);
+
+    #Title {
+      Group {
+        $C.@Title {
+          @Text = "RPG Profile";
+        }
+      }
+    }
+
+    #Content {
+      Group {
+        LayoutMode: Top;
+        FlexWeight: 1;
+        Padding: (Full: 15);
+
+        Group {
+          LayoutMode: Left;
+          FlexWeight: 1;
+
+          Group #InfoPanel {
+            Anchor: (Width: 360);
+            LayoutMode: Top;
+            Padding: (Full: 12, Right: 15);
+            Background: #2a2a2a;
+
+            Label #InfoHeader {
+              Style: (RenderBold: true, FontSize: 14, TextColor: #ffffff);
+              Text: "Basic Info";
+              Padding: (Bottom: 8);
+            }
+
+            Label #PlayerLabel { Text: "Player"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #PlayerValue { Style: (FontSize: 13, TextColor: #ffffff); Padding: (Bottom: 6); }
+
+            Label #ClassLabel { Text: "Class"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #ClassValue { Style: (FontSize: 13, TextColor: #ffffff); Padding: (Bottom: 6); }
+
+            Label #ClassIdLabel { Text: "Class ID"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #ClassIdValue { Style: (FontSize: 12, TextColor: #bbbbbb); Padding: (Bottom: 6); }
+
+            Label #DeityLabel { Text: "Deity"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #DeityValue { Style: (FontSize: 12, TextColor: #bbbbbb); Padding: (Bottom: 6); }
+
+            Label #GameplayLabel { Text: "Gameplay"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #GameplayValue { Style: (FontSize: 12, TextColor: #bbbbbb); Padding: (Bottom: 8); }
+
+            Label #LevelLabel { Text: "Level"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #LevelValue { Style: (FontSize: 13, TextColor: #ffffff); Padding: (Bottom: 6); }
+
+            Label #XpLabel { Text: "XP"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #XpValue { Style: (FontSize: 12, TextColor: #bbbbbb); Padding: (Bottom: 6); }
+
+            Label #MaxLevelLabel { Text: "Max Level"; Style: (FontSize: 11, TextColor: #999999); }
+            Label #MaxLevelValue { Style: (FontSize: 12, TextColor: #bbbbbb); Padding: (Bottom: 6); }
+          }
+
+          Group #DetailsPanel {
+            FlexWeight: 1;
+            LayoutMode: Top;
+            Padding: (Full: 12);
+            Background: #2a2a2a;
+
+            Label #SkillsHeader {
+              Style: (RenderBold: true, FontSize: 14, TextColor: #ffffff);
+              Text: "Skills";
+              Padding: (Bottom: 8);
+            }
+
+            Group {
+              FlexWeight: 1;
+              LayoutMode: TopScrolling;
+              ScrollbarStyle: $C.@DefaultScrollbarStyle;
+
+              Label #ActiveSkillsHeader {
+                Style: (RenderBold: true, FontSize: 12, TextColor: #ffffff);
+                Text: "Active Skills";
+                Padding: (Bottom: 4);
+              }
+              Group #ActiveSkillsList { LayoutMode: Top; }
+
+              Label #PassiveSkillsHeader {
+                Style: (RenderBold: true, FontSize: 12, TextColor: #ffffff);
+                Text: "Passive Skills";
+                Padding: (Top: 8, Bottom: 4);
+              }
+              Group #PassiveSkillsList { LayoutMode: Top; }
+
+              Label #StrengthsHeader {
+                Style: (RenderBold: true, FontSize: 12, TextColor: #55ff55);
+                Text: "Strengths";
+                Padding: (Top: 8, Bottom: 4);
+              }
+              Group #StrengthsList { LayoutMode: Top; }
+
+              Label #WeaknessesHeader {
+                Style: (RenderBold: true, FontSize: 12, TextColor: #ff5555);
+                Text: "Weaknesses";
+                Padding: (Top: 8, Bottom: 4);
+              }
+              Group #WeaknessesList { LayoutMode: Top; }
+            }
+          }
+        }
+
+        Group {
+          LayoutMode: Left;
+          Padding: (Top: 12);
+
+          Group { FlexWeight: 1; }
+
+          $C.@TextButton #CloseButton {
+            Text: "Close";
+          }
+        }
+      }
+    }
+  }
+}

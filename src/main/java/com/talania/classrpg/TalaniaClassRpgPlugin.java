@@ -27,7 +27,8 @@ public final class TalaniaClassRpgPlugin extends JavaPlugin {
         commands.registerCommand(new com.talania.classrpg.commands.ClassCommands(
                 runtime.classService(),
                 runtime.profileRuntime(),
-                runtime.classDefinitions()));
+                runtime.classDefinitions(),
+                runtime.config()));
     }
 
     public TalaniaClassRpgPlugin(@Nonnull JavaPluginInit init) {
